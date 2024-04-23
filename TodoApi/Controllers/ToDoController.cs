@@ -1,0 +1,62 @@
+﻿using Microsoft.AspNetCore.Mvc;
+using TodoApi.Entities;
+using TodoApi.Services;
+using static TodoApi.Services.Dtos.ToDoDto;
+
+namespace TodoApi.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class ToDoController : ControllerBase
+    {
+        private readonly ITodoService _todoService;
+
+        public ToDoController(ITodoService todoService)
+        {
+            _todoService = todoService;
+        }
+
+        [HttpGet]
+        public IActionResult Get()
+        {
+            var todos = _todoService.GetAll();
+            return Ok(todos);
+        }
+
+        [HttpGet("{id}")]
+        public IActionResult Get(int id)
+        {
+            var todo = _todoService.GetById(id);
+            if (todo == null)
+            {
+                return NotFound();
+            }
+            return Ok(todo);
+        }
+
+        [HttpPost]
+        public IActionResult Post([FromBody] ToDoAddRequestDto requestDto)
+        {
+           
+            return Ok(_todoService.Create(requestDto));
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult Put(ToDoUpdateRequestDto requestDto)
+        {     
+            return Ok(_todoService.Update(requestDto));
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            return Ok(_todoService.Delete(id));
+        }
+
+        [HttpGet("GetChildrenOfToDo/{id}")]
+        public IActionResult GetChildrenOfToDo (int id)
+        {
+            return Ok(_todoService.GetChildrenOfToDo(id));
+        }
+    }
+}
