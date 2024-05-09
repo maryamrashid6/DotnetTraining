@@ -1,13 +1,14 @@
 ﻿using System.Collections.Generic;
 using TodoApi.Entities;
 using static TodoApi.Services.Dtos.ToDoDto;
+using static TodoApi.Services.Dtos.CommonDto;
 using TodoApi.Services.Dtos;
 
 namespace TodoApi.Services
 {
     public interface ITodoService
     {
-        AutoResponseDto<List<ToDo>> GetAll();
+        AutoResponseDto<List<ToDo>> GetAll(PaginationDto requestDto);
         AutoResponseDto<ToDo> GetById(int id);
         AutoResponseDto<ToDo> Create(ToDoAddRequestDto requestDto);
         AutoResponseDto<ToDo> Update(ToDoUpdateRequestDto requestDto);

@@ -4,6 +4,7 @@ using TodoApi.Entities;
 using static TodoApi.Services.Dtos.ToDoDto;
 using TodoApi.Services.Dtos;
 using Microsoft.EntityFrameworkCore;
+using static TodoApi.Services.Dtos.CommonDto;
 
 namespace TodoApi.Services
 {
@@ -16,21 +17,41 @@ namespace TodoApi.Services
         {
             _dbContext = dbContext;
         }
-        public AutoResponseDto<List<ToDo>> GetAll()
+        public AutoResponseDto<List<ToDo>> GetAll(PaginationDto requestDto)
         {
             // Logic to fetch all ToDo items from the database
 
-           var result = _dbContext.ToDos.ToList();
-            foreach (var todo in result)
+            if (requestDto.PageSize != null && requestDto.PageNo != null)
             {
-                todo.ParentToDo = _dbContext.ToDos.Find(todo.ParentToDoId);
-                todo.Category = _dbContext.Categories.Find(todo.CategoryId);
+                var result = _dbContext.ToDos.Skip((requestDto.PageNo.Value - 1) * requestDto.PageSize.Value).Take(requestDto.PageSize.Value).ToList();
+                foreach (var todo in result)
+                {
+                    todo.ParentToDo = _dbContext.ToDos.Find(todo.ParentToDoId);
+                    todo.Category = _dbContext.Categories.Find(todo.CategoryId);
+                }
+
+                return new AutoResponseDto<List<ToDo>>
+                {
+                    Result = result
+                };
+            }
+            else
+            {
+                var result = _dbContext.ToDos.ToList();
+                foreach (var todo in result)
+                {
+                    todo.ParentToDo = _dbContext.ToDos.Find(todo.ParentToDoId);
+                    todo.Category = _dbContext.Categories.Find(todo.CategoryId);
+                }
+
+                return new AutoResponseDto<List<ToDo>>
+                {
+                    Result = result
+                };
+
             }
 
-           return new AutoResponseDto<List<ToDo>>
-           {
-               Result = result
-           };
+           
 
         }
 

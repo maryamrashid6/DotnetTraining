@@ -2,6 +2,8 @@
 using TodoApi.Entities;
 using TodoApi.Services;
 using static TodoApi.Services.Dtos.ToDoDto;
+using static TodoApi.Services.Dtos.CommonDto;
+
 
 namespace TodoApi.Controllers
 {
@@ -17,9 +19,9 @@ namespace TodoApi.Controllers
         }
 
         [HttpGet]
-        public IActionResult Get()
+        public IActionResult Get([FromQuery] PaginationDto requestDto)
         {
-            var todos = _todoService.GetAll();
+            var todos = _todoService.GetAll(requestDto);
             return Ok(todos);
         }
 
