@@ -1,4 +1,5 @@
-﻿
+﻿using TodoApi.Entities;
+using static TodoApi.Services.Dtos.UserDto;
 
 namespace TodoApi.Services.Dtos
 {
@@ -14,6 +15,15 @@ namespace TodoApi.Services.Dtos
         public class ToDoUpdateRequestDto : ToDoAddRequestDto
         {
             public int Id { get; set; }
+        }
+
+        public class ToDoResponseDto : CommonDto.BaseDto
+        {
+            public int Id { get; set; }
+            public bool IsCompleted { get; set; }
+            public Category? Category { get; set; }
+            public ToDo? ParentToDo { get; set; }
+            public List<UserNameEmailDto>? Users { get; set; }
         }
         
     }

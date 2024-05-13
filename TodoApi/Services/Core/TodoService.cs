@@ -55,14 +55,14 @@ namespace TodoApi.Services
 
         }
 
-        public AutoResponseDto<ToDo> GetById(int id)
+        public AutoResponseDto<ToDoResponseDto> GetById(int id)
         {
             // Logic to fetch a ToDo item by its ID from the database
             var result = _dbContext.ToDos.Find(id);
   
             if (result == null)
             {
-                return new AutoResponseDto<ToDo>
+                return new AutoResponseDto<ToDoResponseDto>
                 {
                     Success = false,
                     Message = "No record found"
@@ -72,11 +72,33 @@ namespace TodoApi.Services
             {
                 result.ParentToDo = _dbContext.ToDos.Find(result.ParentToDoId);
                 result.Category = _dbContext.Categories.Find(result.CategoryId);
+                // result users
+                result.Users = _dbContext.Users.Where(x => x.ToDos.Contains(result)).ToList();
+            }
+
+            var users = new List<UserDto.UserNameEmailDto>();
+            foreach (var user in result.Users)
+            {
+                users.Add(new UserDto.UserNameEmailDto
+                {
+                    Name = user.Name,
+                    Email = user.Email,
+                    Id = user.Id
+                });
             }
             
-            return new AutoResponseDto<ToDo>
+            return new AutoResponseDto<ToDoResponseDto>
             {
-                Result = result
+                Result = new ToDoResponseDto
+                {
+                    Id = result.Id,
+                    Title = result.Title,
+                    Description = result.Description,
+                    IsCompleted = result.IsCompleted,
+                    Category = result.Category,
+                    ParentToDo = result.ParentToDo,
+                    Users = users
+                }
             };
         }
 

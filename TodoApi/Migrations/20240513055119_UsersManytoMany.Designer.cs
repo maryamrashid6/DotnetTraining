@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TodoApi.Entities;
 
@@ -11,9 +12,11 @@ using TodoApi.Entities;
 namespace TodoApi.Migrations
 {
     [DbContext(typeof(ToDoContext))]
-    partial class ToDoContextModelSnapshot : ModelSnapshot
+    [Migration("20240513055119_UsersManytoMany")]
+    partial class UsersManytoMany
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -34,7 +37,7 @@ namespace TodoApi.Migrations
 
                     b.HasIndex("UsersId");
 
-                    b.ToTable("ToDoUser", (string)null);
+                    b.ToTable("ToDoUser");
                 });
 
             modelBuilder.Entity("TodoApi.Entities.Category", b =>
@@ -54,7 +57,7 @@ namespace TodoApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories", (string)null);
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("TodoApi.Entities.ToDo", b =>
@@ -87,7 +90,7 @@ namespace TodoApi.Migrations
 
                     b.HasIndex("ParentToDoId");
 
-                    b.ToTable("ToDos", (string)null);
+                    b.ToTable("ToDos");
                 });
 
             modelBuilder.Entity("TodoApi.Entities.User", b =>
@@ -112,7 +115,7 @@ namespace TodoApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("ToDoUser", b =>

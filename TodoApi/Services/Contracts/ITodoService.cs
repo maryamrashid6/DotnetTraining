@@ -9,7 +9,7 @@ namespace TodoApi.Services
     public interface ITodoService
     {
         AutoResponseDto<List<ToDo>> GetAll(PaginationDto requestDto);
-        AutoResponseDto<ToDo> GetById(int id);
+        AutoResponseDto<ToDoResponseDto> GetById(int id);
         AutoResponseDto<ToDo> Create(ToDoAddRequestDto requestDto);
         AutoResponseDto<ToDo> Update(ToDoUpdateRequestDto requestDto);
         AutoResponseDto<List<ToDo>> Delete(int id);

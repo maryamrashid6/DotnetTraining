@@ -25,6 +25,14 @@ namespace TodoApi.Entities
         public int? ParentToDoId { get; set; }
         public ToDo? ParentToDo { get; set; }
 
+        //Many to many relationship with Users
+        //A Task can be assigned to multiple users
+        public ICollection<User>? Users { get; set; }
+        public ToDo()
+        {
+            Users = new List<User>();
+        }
+
     }
 
 }
