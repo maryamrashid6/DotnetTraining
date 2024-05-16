@@ -44,5 +44,17 @@ namespace TodoApi.Controllers
             var result = _userService.Add(user);
             return Ok(result);
         }
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            return Ok(_userService.Delete(id));
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult Update([FromBody] UserUpdateRequestDto user)
+        {
+            return Ok(_userService.Update(user));
+        }
     }
 }

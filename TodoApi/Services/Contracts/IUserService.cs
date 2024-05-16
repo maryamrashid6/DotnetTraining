@@ -13,8 +13,8 @@ namespace TodoApi.Services
         AutoResponseDto<UserResponseDto> AssignToDos(int userId, List<int> toDoIds);
 
         AutoResponseDto<User> Add(UserAddRequestDto user);
-        //AutoResponseDto<User> Update(UserUpdateRequestDto user);
-        //AutoResponseDto<User> Delete(int id);
+        AutoResponseDto<UserResponseDto> Update(UserUpdateRequestDto user);
+        AutoResponseDto<string> Delete(int id);
         
 
     }

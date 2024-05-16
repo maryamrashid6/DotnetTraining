@@ -174,5 +174,60 @@ namespace TodoApi.Services
             };
         }
 
+        public AutoResponseDto<UserResponseDto> Update(UserUpdateRequestDto user)
+        {
+            // Logic to update a User item in the database
+            var existingUser = _dbContext.Users.Find(user.Id);
+
+            if (existingUser == null)
+            {
+                return new AutoResponseDto<UserResponseDto>
+                {
+                    Success = false,
+                    Message = "User not found"
+                };
+            }
+
+            existingUser.Name = user.Name;
+            existingUser.Email = user.Email;
+            existingUser.Password = user.Password;
+
+            _dbContext.SaveChanges();
+
+            return new AutoResponseDto<UserResponseDto>
+            {
+                Result = new UserResponseDto
+                {
+                    Id = existingUser.Id,
+                    Name = existingUser.Name,
+                    Email = existingUser.Email
+                }
+            };
+        }   
+
+        public AutoResponseDto<string> Delete(int id)
+        {
+            // Logic to delete a User item from the database
+            var existingUser = _dbContext.Users.Find(id);
+
+            if (existingUser == null)
+            {
+                return new AutoResponseDto<string>
+                {
+                    Success = false,
+                    Message = "User not found"
+                };
+            }
+
+            _dbContext.Users.Remove(existingUser);
+            _dbContext.SaveChanges();
+
+            return new AutoResponseDto<string>
+            {
+                Success = true,
+                Message = "User deleted successfully"
+            };
+        }   
+
     }
 }
