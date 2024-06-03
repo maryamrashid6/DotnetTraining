@@ -13,6 +13,17 @@ namespace TodoApi.Services.Dtos
 
         }
 
+        public class LoginRequestDto
+        {
+            public required string Email { get; set; }
+            public required string Password { get; set; }
+        }
+
+        public class LoginResponseDto
+        {
+            public string Token { get; set; }
+        }
+
         public class UserUpdateRequestDto : UserAddRequestDto
         {
             public int Id { get; set; }

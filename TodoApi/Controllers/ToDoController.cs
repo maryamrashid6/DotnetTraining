@@ -3,12 +3,13 @@ using TodoApi.Entities;
 using TodoApi.Services;
 using static TodoApi.Services.Dtos.ToDoDto;
 using static TodoApi.Services.Dtos.CommonDto;
-
+using Microsoft.AspNetCore.Authorization;
 
 namespace TodoApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class ToDoController : ControllerBase
     {
         private readonly ITodoService _todoService;
