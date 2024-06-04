@@ -28,6 +28,11 @@ namespace TodoApi.Entities
         //Many to many relationship with Users
         //A Task can be assigned to multiple users
         public ICollection<User>? Users { get; set; }
+
+        public DateTime? ReminderDate { get; set; }
+        public bool IsReminderSet { get; set; }
+
+
         public ToDo()
         {
             Users = new List<User>();

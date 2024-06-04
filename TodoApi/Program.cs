@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Hangfire.SqlServer;
+using Hangfire;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -14,11 +16,18 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.OpenApi.Models;
+using Hangfire;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Register services with dependency injection
 //builder.Services.AddControllers();
+
+// Configure logging
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
+builder.Logging.AddDebug();
+
 
 builder.Services.AddControllers().AddJsonOptions(options =>
 {
@@ -66,8 +75,8 @@ builder.Services.AddDbContext<ToDoContext>(options =>
 builder.Services.AddScoped<ITodoService, TodoService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IUserService, UserService>();
-
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IReminderService, ReminderService>();
 
 builder.Services.AddAuthentication(options =>
 {
@@ -90,7 +99,22 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
+// Configure Hangfire
+builder.Services.AddHangfire(config => config
+    .SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
+    .UseSimpleAssemblyNameTypeSerializer()
+    .UseRecommendedSerializerSettings()
+    .UseSqlServerStorage(builder.Configuration.GetConnectionString("DefaultConnection"), new SqlServerStorageOptions
+    {
+        CommandBatchMaxTimeout = TimeSpan.FromMinutes(5),
+        SlidingInvisibilityTimeout = TimeSpan.FromMinutes(5),
+        QueuePollInterval = TimeSpan.Zero,
+        UseRecommendedIsolationLevel = true,
+        UsePageLocksOnDequeue = true,
+        DisableGlobalLocks = true
+    }));
 
+builder.Services.AddHangfireServer();
 
 
 
@@ -114,5 +138,27 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+
+// Configure Hangfire Dashboard (optional)
+//app.UseHangfireDashboard();
+
+// Schedule the daily job
+//RecurringJob.AddOrUpdate<IReminderService>("CheckReminders", service => service.CheckReminders(), Cron.Daily);
+
+
+
+// Configure Hangfire Dashboard with custom path
+app.UseHangfireDashboard("/jobs");
+
+// Schedule the job to run every minute
+RecurringJob.AddOrUpdate<IReminderService>("CheckRemindersMinutely", service => service.CheckReminders(), Cron.Minutely);
+
+// Endpoint to trigger the reminder job manually
+app.MapPost("/trigger-reminder-job", async (IReminderService reminderService) =>
+{
+    BackgroundJob.Enqueue(() => reminderService.CheckReminders());
+    return Results.Ok("Reminder job has been triggered.");
+});
 
 app.Run();

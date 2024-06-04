@@ -10,6 +10,9 @@ namespace TodoApi.Services.Dtos
             public bool IsCompleted { get; set; }
             public int? CategoryId { get; set; }
             public int? ParentToDoId { get; set; }
+
+            public bool IsReminderSet { get; set; }
+            public DateTime? ReminderDate { get; set; }
         }
 
         public class ToDoUpdateRequestDto : ToDoAddRequestDto
@@ -24,6 +27,8 @@ namespace TodoApi.Services.Dtos
             public Category? Category { get; set; }
             public ToDo? ParentToDo { get; set; }
             public List<UserNameEmailDto>? Users { get; set; }
+            public DateTime? ReminderDate { get; set; }
+            public bool IsReminderSet { get; set; }
         }
         
     }

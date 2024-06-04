@@ -97,7 +97,9 @@ namespace TodoApi.Services
                     IsCompleted = result.IsCompleted,
                     Category = result.Category,
                     ParentToDo = result.ParentToDo,
-                    Users = users
+                    Users = users,
+                    ReminderDate = result.ReminderDate,
+                    IsReminderSet = result.IsReminderSet
                 }
             };
         }
@@ -151,7 +153,9 @@ namespace TodoApi.Services
                 Description = requestDto.Description,
                 CategoryId = requestDto.CategoryId,
                 IsCompleted = requestDto.IsCompleted,
-                ParentToDoId = requestDto.ParentToDoId
+                ParentToDoId = requestDto.ParentToDoId,
+                IsReminderSet = requestDto.IsReminderSet,
+                ReminderDate = requestDto.ReminderDate
             };
             _dbContext.ToDos.Add(todo);
             _dbContext.SaveChanges();
@@ -206,6 +210,9 @@ namespace TodoApi.Services
             todo.CategoryId = requestDto.CategoryId;
             todo.IsCompleted = requestDto.IsCompleted;
             todo.ParentToDoId = requestDto.ParentToDoId;
+            todo.IsReminderSet = requestDto.IsReminderSet;
+            todo.ReminderDate = requestDto.ReminderDate;
+            _dbContext.ToDos.Update(todo);
             _dbContext.SaveChanges();
             
             return new AutoResponseDto<ToDo>

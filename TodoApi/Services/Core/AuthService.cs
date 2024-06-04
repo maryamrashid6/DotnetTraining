@@ -30,6 +30,10 @@ namespace TodoApi.Services.Core
                 Password = user.Password
             };
 
+            //if user already exists
+            if (_dbContext.Users.Any(x => x.Email == newUser.Email))
+                return null;
+
             _dbContext.Users.Add(newUser);
             _dbContext.SaveChanges();
 
@@ -46,10 +50,6 @@ namespace TodoApi.Services.Core
             if (user == null || !BCrypt.Net.BCrypt.Verify(password, user.Password))
                 return null;
 
-
-            // return null if user not found
-            if (user == null)
-                return null;
 
             return user;
         }
