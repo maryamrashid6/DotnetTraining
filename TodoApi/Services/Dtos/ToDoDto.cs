@@ -1,5 +1,7 @@
-﻿using TodoApi.Entities;
+﻿using FluentValidation;
+using TodoApi.Entities;
 using static TodoApi.Services.Dtos.UserDto;
+using FluentValidation;
 
 namespace TodoApi.Services.Dtos
 {
@@ -13,6 +15,17 @@ namespace TodoApi.Services.Dtos
 
             public bool IsReminderSet { get; set; }
             public DateTime? ReminderDate { get; set; }
+        }
+
+        public class ToDoValidator : AbstractValidator<ToDoAddRequestDto>
+        {
+            public ToDoValidator()
+            {
+                RuleFor(x => x.Title).NotEmpty().WithMessage("Title is required");
+                RuleFor(x => x.Title).MaximumLength(50).WithMessage("Title cannot be more than 50 characters");
+                RuleFor(x => x.Description).MaximumLength(500).WithMessage("Description cannot be more than 500 characters");
+                RuleFor(x => x.ReminderDate).GreaterThan(DateTime.Now).WithMessage("Reminder date cannot be in the past");
+            }
         }
 
         public class ToDoUpdateRequestDto : ToDoAddRequestDto

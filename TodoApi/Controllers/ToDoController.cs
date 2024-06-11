@@ -40,7 +40,11 @@ namespace TodoApi.Controllers
         [HttpPost]
         public IActionResult Post([FromBody] ToDoAddRequestDto requestDto)
         {
-           
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             return Ok(_todoService.Create(requestDto));
         }
 

@@ -1,12 +1,15 @@
 {
   "version": 2,
-  "dgSpecHash": "5cA9G03seYqlY1WX3i79sZMh7pY2R7qokKG14ybnXJ5aiDCqnjgc6KiZF1HUqorJhvAfyT2M4s7On581hPJCRA==",
+  "dgSpecHash": "Et8yJMxyB7wa5KZJS0VqWPcjEjHtnd67f8yvqYZJoN+PbI1l+3dD1e9+kAP8QrnCwnWTV8oa0luFY5nlKfA7yg==",
   "success": true,
   "projectFilePath": "D:\\folio3 projects\\PracticeBE\\TodoApi\\TodoApi\\TodoApi.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\MaryumRashid\\.nuget\\packages\\azure.core\\1.35.0\\azure.core.1.35.0.nupkg.sha512",
     "C:\\Users\\MaryumRashid\\.nuget\\packages\\azure.identity\\1.10.3\\azure.identity.1.10.3.nupkg.sha512",
     "C:\\Users\\MaryumRashid\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
+    "C:\\Users\\MaryumRashid\\.nuget\\packages\\fluentvalidation\\11.5.1\\fluentvalidation.11.5.1.nupkg.sha512",
+    "C:\\Users\\MaryumRashid\\.nuget\\packages\\fluentvalidation.aspnetcore\\11.3.0\\fluentvalidation.aspnetcore.11.3.0.nupkg.sha512",
+    "C:\\Users\\MaryumRashid\\.nuget\\packages\\fluentvalidation.dependencyinjectionextensions\\11.5.1\\fluentvalidation.dependencyinjectionextensions.11.5.1.nupkg.sha512",
     "C:\\Users\\MaryumRashid\\.nuget\\packages\\hangfire\\1.7.0\\hangfire.1.7.0.nupkg.sha512",
     "C:\\Users\\MaryumRashid\\.nuget\\packages\\hangfire.aspnetcore\\1.7.0\\hangfire.aspnetcore.1.7.0.nupkg.sha512",
     "C:\\Users\\MaryumRashid\\.nuget\\packages\\hangfire.core\\1.7.0\\hangfire.core.1.7.0.nupkg.sha512",

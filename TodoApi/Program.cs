@@ -16,7 +16,11 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.OpenApi.Models;
+using FluentValidation;
 using Hangfire;
+using FluentValidation.AspNetCore;
+using System.ComponentModel.DataAnnotations;
+using TodoApi.Services.Dtos;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,11 +32,18 @@ builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
 builder.Logging.AddDebug();
 
+//builder.Services.AddControllers().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<ToDoValidator>());
 
-builder.Services.AddControllers().AddJsonOptions(options =>
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
 {
     options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
 });
+
+
+builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddFluentValidationClientsideAdapters();
+builder.Services.AddValidatorsFromAssemblyContaining<ToDoDto.ToDoValidator>();
 
 
 builder.Services.AddEndpointsApiExplorer();
